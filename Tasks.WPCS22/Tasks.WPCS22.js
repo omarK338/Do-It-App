@@ -17,10 +17,10 @@ document.head.appendChild(script);
 
 async function initGoogleClient() {
     await gapi.client.init({
-        apiKey: 'AIzaSyBHAAaBqIXvTQh0MDkTGJnLV4bVXiZWQAE',                                 
-        clientId: '232380579632-12ocsk6043kmbn3qeciau8ie91he0qkf.apps.googleusercontent.com',
-        discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest'],
-        scope: 'https://www.googleapis.com/auth/drive.file'
+        apiKey: '',                                 
+        clientId: '',
+        discoveryDocs: [''],
+        scope: ''
     });
 
     const auth = gapi.auth2.getAuthInstance();
@@ -36,7 +36,7 @@ async function loadUserDriveInfo() {
         const data = await res.json();
         if (data.connected) {
             googleUserEmail = data.email;
-            tasksFolderId = data.tasksFolderId;  // Assume API has tasksFolderId
+            tasksFolderId = data.tasksFolderId;
         }
     }
 }
@@ -155,7 +155,7 @@ function showMediaPreview(file, fileId) {
     const container = document.getElementById('media-preview-container');
     container.innerHTML = '';
     container.style.display = 'block';
-    const url = URL.createObjectURL(file);  // Local preview before save
+    const url = URL.createObjectURL(file);
     let preview;
     if (file.type.startsWith('image/')) {
         preview = document.createElement('img');
@@ -226,7 +226,7 @@ async function saveTask() {
         const today = new Date().toISOString().split('T')[0];
         const reminderDate = reminder.split('T')[0];
         if (reminderDate !== today) {
-            addToCalendar(`Reminder: ${title}`, data.notes, reminder, reminder);  // Start and end same for reminder
+            addToCalendar(`Reminder: ${title}`, data.notes, reminder, reminder);
         }
     }
 
@@ -403,7 +403,7 @@ function determineFileType(task) {
 
 function previewMedia(url, type = 'image') {
     const container = document.getElementById('media-container');
-    container.innerHTML = `<img src="${url}" class="modal-media">`; // simplify for now
+    container.innerHTML = `<img src="${url}" class="modal-media">`;
     document.getElementById('media-modal').style.display = 'block';
 }
 
