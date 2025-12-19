@@ -4,9 +4,8 @@ let passwordChanged = false;
 let isEditMode = false;
 let isForcedPasswordChange = false;
 let googleUserEmail = null;
-let codeClient = null; // GIS code client
+let codeClient = null;
 
-// Prevent leaving during forced password change
 window.addEventListener('beforeunload', (e) => {
     if (isForcedPasswordChange && !passwordChanged) {
         e.preventDefault();
@@ -33,15 +32,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         document.getElementById('profile-content').style.display = 'none';
     }
 
-    // Load GIS library and initialize
     loadAndInitGIS();
 });
 
 function loadAndInitGIS() {
-    // Load GIS script if not loaded
     if (!window.google || !window.google.accounts || !window.google.accounts.oauth2) {
         const script = document.createElement('script');
-        script.src = 'https://accounts.google.com/gsi/client';
+        script.src = '';
         script.async = true;
         script.defer = true;
         script.onload = initializeGIS;
@@ -52,21 +49,19 @@ function loadAndInitGIS() {
 }
 
 function initializeGIS() {
-    // Initialize code client for OAuth2 code flow
     codeClient = window.google.accounts.oauth2.initCodeClient({
-        client_id: '232380579632-12ocsk6043kmbn3qeciau8ie91he0qkf.apps.googleusercontent.com',
-        scope: 'https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/userinfo.email',
+        client_id: '',
+        scope: '',
         ux_mode: 'redirect',
-        redirect_uri: window.location.origin + '/Profile.WPCS22/Profile.WPCS22.html', // EXACT match
+        redirect_uri: window.location.origin + '/Profile.WPCS22/Profile.WPCS22.html',
         state: 'drive_connect_state'
     });
 
-    // Load gapi.client for Drive API
     const script = document.createElement('script');
     script.src = 'https://apis.google.com/js/api.js';
     script.onload = () => {
         gapi.load('client', () => {
-            gapi.client.setApiKey('AIzaSyBHAAaBqIXvTQh0MDkTGJnLV4bVXiZWQAE');
+            gapi.client.setApiKey('');
             gapi.client.load('drive', 'v3');
         });
     };
@@ -82,19 +77,16 @@ async function connectGoogleDrive() {
     }
 
     try {
-        // Check if just returned from Google redirect (code in URL)
         const urlParams = new URLSearchParams(window.location.search);
         const code = urlParams.get('code');
         const state = urlParams.get('state');
 
         if (code && state === 'drive_connect_state') {
-            // We have the code — exchange it
             console.log('Received auth code, exchanging...');
             await exchangeCodeForTokens(code);
             return;
         }
 
-        // No code → start auth flow
         console.log('Starting Google sign-in...');
         codeClient.requestCode();
 
@@ -153,11 +145,10 @@ async function exchangeCodeForTokens(code) {
 
 async function switchGoogleAccount() {
     if (!confirm('Switch Google Account? This affects new media storage.\nOld files remain in the previous account.')) return;
-    connectGoogleDrive(); // Triggers re-auth
+    connectGoogleDrive();
 }
 
 async function findOrCreateFolder(token, name, parentId = null) {
-    // Find existing
     const query = `name='${name}' and mimeType='application/vnd.google-apps.folder' and trashed=false` + (parentId ? ` and '${parentId}' in parents` : '');
     const response = await gapi.client.drive.files.list({ q: query, fields: 'files(id,name)' });
     if (response.result.files && response.result.files.length > 0) {
@@ -244,7 +235,6 @@ async function loadProfile(forcePasswordChangeMode = false) {
         document.getElementById('tasks-done').textContent = tasks.filter(t => t.status === 'Completed').length || 0;
         document.getElementById('dailies-count').textContent = dailies.length || 0;
 
-        // Fill security questions
         if (userData.question1) document.getElementById('security-question1').value = userData.question1;
         if (userData.answer1) document.getElementById('security-answer1').value = userData.answer1;
         if (userData.question2) document.getElementById('security-question2').value = userData.question2;
@@ -252,10 +242,8 @@ async function loadProfile(forcePasswordChangeMode = false) {
         if (userData.question3) document.getElementById('security-question3').value = userData.question3;
         if (userData.answer3) document.getElementById('security-answer3').value = userData.answer3;
 
-        // Check Drive connection
         checkDriveConnection();
 
-        // Handle forced password change
         if (forcePasswordChangeMode) {
             isForcedPasswordChange = true;
             document.getElementById('profile-error').textContent = "You recovered your account. Please set a new strong password now.";
