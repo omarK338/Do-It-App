@@ -15,10 +15,10 @@ document.head.appendChild(script);
 
 async function initGoogleClient() {
     await gapi.client.init({
-        apiKey: 'AIzaSyBHAAaBqIXvTQh0MDkTGJnLV4bVXiZWQAE',                                 
-        clientId: '232380579632-12ocsk6043kmbn3qeciau8ie91he0qkf.apps.googleusercontent.com',
-        discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest'],
-        scope: 'https://www.googleapis.com/auth/drive.file'
+        apiKey: '',                                 
+        clientId: '',
+        discoveryDocs: [''],
+        scope: ''
     });
 
     const auth = gapi.auth2.getAuthInstance();
@@ -256,12 +256,10 @@ function sortTable(column) {
         currentSort.direction = 'asc';
     }
 
-    // Clear previous sort indicators
     document.querySelectorAll('th').forEach(th => {
         th.classList.remove('sort-asc', 'sort-desc');
     });
 
-    // Add indicator to the correct header using data-column (if you add it) or fallback
     const header = document.querySelector(`th[onclick*="sortTable('${column}')"]`);
     if (header) {
         header.classList.add(`sort-${currentSort.direction}`);
