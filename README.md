@@ -63,7 +63,7 @@ The system was designed using UML diagrams:
 - We know it is not a full system and lack of many features but a journey of learning is hard and needs time.
 
 ## Authors
-- Omar Adel
+- Omar Adel Bayomi Mohammed
 - Mohammed Abdelgawad Salem
 - Omar Hamdy Fathy
 - Hassan Salah El-Dien Hassan
