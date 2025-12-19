@@ -546,8 +546,6 @@ app.get('/api/dailies/:userId', (req, res) => {
 app.post('/api/dailies', (req, res) => {
     const { user_id, title, note, time, reminder, media } = req.body;
     
-    // media should be a local file path string like: "file:///C:/Users/.../image.jpg"
-    // or a relative path like: "user_uploads/image_123.jpg"
     const mediaPath = media || null;
     
     db.run(
