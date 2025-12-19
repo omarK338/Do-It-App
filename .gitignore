@@ -1,0 +1,23 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# Build
+build/
+dist/
+bin/
+out/
+
+# Node
+node_modules/
+
+# Logs
+*.log
+
+# Secrets
+.env

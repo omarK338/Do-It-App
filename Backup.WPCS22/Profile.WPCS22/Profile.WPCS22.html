@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - Do It App</title>
+    <link rel="stylesheet" href="Profile.WPCS22.css">
+    <link rel="icon" href="../Icon.jpg" type="image/x-icon">
+    <script src="https://apis.google.com/js/api.js"></script>    
+</head>
+<body>
+    <header>
+        <h1>Profile</h1>
+        <nav>
+            <ul>
+                <li><a href="../Home.WPCS22.html">Home</a></li>
+                <li><a href="../Tasks.WPCS22/Tasks.WPCS22.html">Tasks</a></li>
+                <li><a href="../Dailies.WPCS22/Dailies.WPCS22.html">Dailies</a></li>
+                <li><a href="../Export.WPCS22/Export.WPCS22.html">Export</a></li>
+                <li><a href="#" onclick="logout()">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="password-prompt" id="password-prompt">
+            <label for="profile-password">Enter your password to view profile:</label>
+            <input type="password" id="profile-password" required>
+            <button onclick="verifyProfilePassword()">Continue</button>
+        </div>
+
+        <div class="profile-content" id="profile-content" style="display: none;">
+            <!-- User Info -->
+            <div class="profile-data">
+                <h2>Account Information</h2>
+                <label>Username:</label>
+                <input type="text" id="profile-username" disabled>
+                <label>Email:</label>
+                <input type="email" id="profile-email" disabled>
+                <label>New Password (leave blank to keep current):</label>
+                <input type="password" id="profile-password-field" placeholder="Enter new password" disabled>
+                <button id="update-profile" onclick="toggleProfileEdit()">Edit Account</button>
+                <div id="profile-error" class="error-message" style="margin-top:10px;"></div>
+            </div>
+
+            <!-- Google Drive Section -->
+            <div class="drive-section">
+                <h2>Google Drive Storage</h2>
+                <div class="drive-status">
+                    <span class="drive-badge">G</span>
+                    <span id="drive-status-text" class="drive-disconnected">Not Connected</span>
+                </div>
+                <p style="color:#a0a0c0; font-size:0.95rem;">
+                    All your photos, videos, and notes are stored in <strong>your own Google Drive</strong> (Do-It App → Dailies / Tasks folders).<br>
+                    You own your data. We never store your files.
+                </p>
+                <button class="btn-drive" id="connect-drive-btn" onclick="connectGoogleDrive()">
+                    Connect Google Drive
+                </button>
+                <button class="btn-drive" id="switch-drive-btn" onclick="switchGoogleAccount()" style="display:none; background:#666 !important;">
+                    Switch Google Account
+                </button>
+                <div id="drive-info" style="margin-top:10px; color:#a0a0c0; font-size:0.9rem;"></div>
+            </div>
+
+            <!-- Security Questions -->
+            <div class="profile-data" style="margin-top: 30px;">
+                <h2>Security Questions</h2>
+                <p><strong>Change your recovery questions (requires current password)</strong></p>
+                <label>Current Password:</label>
+                <input type="password" id="security-current-password">
+                <label>Question 1:</label><input type="text" id="security-question1">
+                <label>Answer 1:</label><input type="text" id="security-answer1">
+                <label>Question 2:</label><input type="text" id="security-question2">
+                <label>Answer 2:</label><input type="text" id="security-answer2">
+                <label>Question 3:</label><input type="text" id="security-question3">
+                <label>Answer 3:</label><input type="text" id="security-answer3">
+                <button id="update-security" onclick="updateSecurityQuestions()">Update Security Questions</button>
+                <div id="security-error" class="error-message"></div>
+            </div>
+
+            <!-- Stats -->
+            <div class="profile-status">
+                <h2>Your Stats</h2>
+                <table>
+                    <tr><td>Login Times</td><td id="login-times">0</td></tr>
+                    <tr><td>Total Tasks</td><td id="tasks-count">0</td></tr>
+                    <tr><td>Completed Tasks</td><td id="tasks-done">0</td></tr>
+                    <tr><td>Total Dailies</td><td id="dailies-count">0</td></tr>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <script src="Profile.WPCS22.js"></script>
+</body>
+</html>
